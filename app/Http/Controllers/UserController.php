@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function test(Request $request)
+    {
+        return response()->json([
+            'message' => 'kek',
+        ]);
+    }
     public function index()
     {
         return new UserResourse(Auth()->user());
