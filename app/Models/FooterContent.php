@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use TCG\Voyager\Facades\Voyager;
 
-class FooterContent extends Model
+class FooterContent extends BaseModel
 {
 
     use HasFactory;
