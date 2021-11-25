@@ -19,7 +19,7 @@ class CategoryProductsCollection extends ResourceCollection
                 'id'        => $item->id,
                 'title'     => $item->title,
                 'subtitle'  => $item->subtitle,
-                'image'     => 'storage/' . $item->image,
+                'image'     => $item->image,
                 'article'   => $item->article,
                 'price'     => $item->price,
                 'old_price' => $item->old_price

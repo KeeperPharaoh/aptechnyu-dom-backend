@@ -16,7 +16,8 @@ class CategoryController extends BaseController
         foreach ($categories as $category){
             array_push($data, $category['title']);
         }
-        return $this->sendResponse($data,'Операция прошла успешна');
+        return response()->json($data, 200);
+
     }
 
     public function caregory($id)
@@ -39,6 +40,6 @@ class CategoryController extends BaseController
             return response()->json($data);
         }
 
-        return response('Not Found', 404);
+        return response()->json('Not Found', 404);
     }
 }

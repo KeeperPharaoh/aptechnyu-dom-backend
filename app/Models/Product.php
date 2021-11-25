@@ -9,6 +9,10 @@ class Product extends Model
 {
     use HasFactory;
 
+    public function getImageAttribute($value)
+    {
+        return 'https://brownies.a-lux.dev/storage/' . $value;
+    }
     public function categories(){
         return $this->belongsToMany(Category::class,'category_products','product_id','category_id');
     }
