@@ -31,12 +31,14 @@ class AuthController extends BaseController
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         try {
-        $user = User::create($input);
+            $user = User::create($input);
         }catch (\Exception $exception){
             return $this->sendError('Номер уже зарегистрирован');
         }
         $success['token'] = $user->createToken('MyApp')->plainTextToken;
-        $success['name'] = $user->name;
+        $success['user'] = [
+            'name' => $user->name
+        ];
         return $this->sendResponse($success, 'User register successfully.');
     }
 
@@ -50,12 +52,15 @@ class AuthController extends BaseController
         if(Auth::attempt(['phone_number' => $request->phone_number, 'password' => $request->password])){
             $user = Auth::user();
             $success['token'] = $user->createToken('MyApp')->plainTextToken;
-            $success['name'] = $user->name;
+            $success['user']         = [
+                'phone_number' => $user->phone_number,
+                'name' => $user->name
+            ];
 
             return $this->sendResponse($success, 'User login successfully.');
         }
         else{
-            return $this->sendError()->json([
+            return $this->sendError([
                 'message' => 'Unauthorised',
                 'error' => 'Unauthorised'
             ]);

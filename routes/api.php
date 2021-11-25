@@ -4,27 +4,47 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-Route::post('/test',[UserController::class, 'test']);
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\ContentController;
 
-
+//Регистрация
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-
 Route::post('logout', [AuthController::class, 'logout']);
 
+//Личный Кабинет
 Route::middleware('auth:sanctum')->group( function () {
     Route::get('/profile',[UserController::class, 'index']);
     Route::put('/profile/profileUpdate',[UserController::class, 'profileUpdate']);
     Route::put('/profile/change-password',[UserController::class, 'updatePassword']);
     Route::post('logout', [AuthController::class, 'logout']);
+
+//Избранное
+    Route::get('/favorite',[FavoriteController::class, 'show']);
+    Route::post('favorite/{product}', [FavoriteController::class, 'favorite']);
 });
+
+//Продукт
+Route::get('/product/{id}', [ProductController::class, 'show']);
+Route::get('/new-product', [ProductController::class, 'new']);
+Route::get('/bestsellers', [ProductController::class, 'best']);
+Route::get('/sale', [ProductController::class, 'sale']);
+
+//Категории
+Route::get('/categories', [CategoryController::class, 'allCaregory']);
+Route::get('/category/{id}',[CategoryController::class, 'caregory']);
+
+//Поиск
+Route::get('/products/{search}',[CategoryController::class, 'search']);
+
+
+//Контент
+Route::get('/main-content',[ContentController::class, 'mainContent']);
+Route::get('/benefit', [ContentController::class, 'benefit']);
+Route::get('/stock-block',[ContentController::class, 'stockBlock']);
+Route::get('/footer-contact',[ContentController::class, 'footerContact']);
+Route::get('/footer-content',[ContentController::class, 'footerContent']);
+Route::get('/addresses',[ContentController::class, 'addresses']);
+

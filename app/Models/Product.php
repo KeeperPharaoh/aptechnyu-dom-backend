@@ -12,4 +12,10 @@ class Product extends Model
     public function categories(){
         return $this->belongsToMany(Category::class,'category_products','product_id','category_id');
     }
+
+
+    public function favorite()
+    {
+        return $this->hasMany(Favorite::class, 'product_id')->where('user_id', auth('sanctum')->user()->id);
+    }
 }

@@ -40,27 +40,14 @@ class UserController extends Controller
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'old_password' => ['required'],
             'new_password' => ['required'],
             'conf_password' => ['required'],
         ]);
         $user = User::where('id', Auth::id())->first();
 
-        if (!Hash::check($request->old_password, $user->password) and $request->new_password != $request->conf_password) {
-            return response()->json([
-                'status' => 'Password error'
-            ],418);
-        }
-
         if ($request->new_password != $request->conf_password) {
             return response()->json([
                 'status' => 'Password Incorrect'
-            ],418);
-        }
-
-        if (!Hash::check($request->old_password, $user->password)) {
-            return response( )->json([
-                'status' => 'Password is wrong'
             ],418);
         }
 
@@ -69,7 +56,7 @@ class UserController extends Controller
         $user->save();
 
         return response()->json([
-                'status' => 'Password changed'
+            'status' => 'Password changed'
         ],200);
     }
 }
