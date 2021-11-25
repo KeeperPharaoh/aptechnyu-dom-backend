@@ -25,6 +25,7 @@ class ProductResource extends JsonResource
             'country'       =>  $this->country,
             'manufacturer'  =>  $this->manufacturer,
             'instruction'   =>  $this->instruction,
+            'composition'   =>  $this->composition,
             'description'   =>  $this->description,
         ];
     }
