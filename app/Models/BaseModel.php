@@ -11,6 +11,6 @@ class BaseModel extends Model
 
     public static function jsonDecode($json){
         $json = json_decode($json, true);
-        return 'storage/' .$json[0]['download_link'];
+        return $json[0]['download_link'];
     }
 }
