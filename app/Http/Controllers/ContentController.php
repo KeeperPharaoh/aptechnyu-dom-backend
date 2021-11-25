@@ -22,9 +22,6 @@ class ContentController extends Controller
     public function benefit()
     {
         $benefits = Benefit::all();
-        foreach ($benefits as $benefit){
-            $benefit->image = self::jsonDecode($benefit->image);
-        }
         return response()->json($benefits,200);
     }
 
@@ -44,9 +41,6 @@ class ContentController extends Controller
     public function footerContent()
     {
         $content = FooterContent::first();
-        $content->youtube_image = self::jsonDecode($content->youtube_image);
-        $content->instagram_image = self::jsonDecode($content->instagram_image);
-        $content->facebook_image = self::jsonDecode($content->facebook_image);
         return response()->json($content,200);
     }
 
@@ -56,8 +50,5 @@ class ContentController extends Controller
         return response()->json($addresses,200);
     }
 
-    public static function jsonDecode($json){
-        $json = json_decode($json, true);
-        return 'storage/' .$json[0]['download_link'];
-    }
+
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use TCG\Voyager\Facades\Voyager;
 
 class Product extends Model
 {
@@ -11,8 +12,10 @@ class Product extends Model
 
     public function getImageAttribute($value)
     {
-        return 'https://brownies.a-lux.dev/storage/' . $value;
+        return Voyager::image($value);
     }
+
+
     public function categories(){
         return $this->belongsToMany(Category::class,'category_products','product_id','category_id');
     }

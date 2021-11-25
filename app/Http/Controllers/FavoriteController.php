@@ -6,6 +6,7 @@ use App\Models\Favorite;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use function PHPUnit\Framework\isEmpty;
 
 class FavoriteController extends Controller
 {
@@ -40,7 +41,6 @@ class FavoriteController extends Controller
         ]);
 
         $product = Product::where('id', $request->product)->first();
-
         return response()->json([
             'message' => 'Товар успешно добавлен'
         ],200);
