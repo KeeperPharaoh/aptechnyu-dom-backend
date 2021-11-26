@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryProductsCollection;
 use App\Models\Category;
 use App\Models\Product;
@@ -12,11 +13,7 @@ class CategoryController extends BaseController
     public function allCaregory()
     {
         $categories = Category::all()->where('show',1);
-        $data = [];
-        foreach ($categories as $category){
-            array_push($data, $category['title']);
-        }
-        return response()->json($data, 200);
+        return response()->json(new CategoryCollection($categories), 200);
 
     }
 

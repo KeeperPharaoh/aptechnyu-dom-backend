@@ -6,6 +6,7 @@ use App\Models\Favorite;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use function PHPUnit\Framework\isEmpty;
 
 class FavoriteController extends Controller
@@ -21,18 +22,17 @@ class FavoriteController extends Controller
         return response()->json($data, 200);
     }
 
-    public function favorite(Request $request)
+    public function add(Request $request)
     {
         $favorite = Favorite::
-            where('user_id', Auth::id())
+        where('user_id', Auth::id())
             ->where('product_id', $request->product)
             ->first();
 
         if ($favorite){
-            $favorite->delete();
             return response([
-                'message' => 'Товар успешно удален'
-            ],200);
+                'message' => 'Товар уже в корзине'
+            ],422);
         }
 
         Favorite::create([
@@ -43,6 +43,24 @@ class FavoriteController extends Controller
         $product = Product::where('id', $request->product)->first();
         return response()->json([
             'message' => 'Товар успешно добавлен'
+        ],200);
+    }
+
+    public function delete(Request $request)
+    {
+
+        $favorite = Favorite::
+        where('user_id', Auth::id())
+            ->where('product_id', $request->product)
+            ->first();
+        if (!isset($favorite)){
+            return response([
+                'message' => 'Товара нету в корзине',
+            ],422);
+        }
+        $favorite->delete();
+        return response([
+            'message' => 'Товар успешно удален'
         ],200);
     }
 }

@@ -25,7 +25,9 @@ Route::middleware('auth:sanctum')->group( function () {
 
 //Избранное
     Route::get('/favorite',[FavoriteController::class, 'show']);
-    Route::post('favorite/{product}', [FavoriteController::class, 'favorite']);
+    Route::post('favorite/add/{product}', [FavoriteController::class, 'add']);
+    Route::delete('favorite/delete/{product}', [FavoriteController::class, 'delete']);
+
 });
 
 //Продукт
