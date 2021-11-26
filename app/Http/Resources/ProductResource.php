@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\CategoryProducts;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
@@ -14,7 +15,9 @@ class ProductResource extends JsonResource
         }else{
             $stock = false;
         }
+        $category_id = self::findCategory($this->id);
         return [
+            'category_id'   =>  $category_id,
             'title'         =>  $this->title,
             'subtitle'      =>  $this->subtitle,
             'article'       =>  $this->article,
@@ -28,5 +31,16 @@ class ProductResource extends JsonResource
             'composition'   =>  $this->composition,
             'description'   =>  $this->description,
         ];
+    }
+
+    public static function findCategory($id)
+    {
+        $prod = CategoryProducts::all()
+            ->where('product_id',$id)
+            ->where('category_id','!=',8)
+            ->where('category_id','!=',9)
+            ->where('category_id','!=',10)
+            ->first();
+        return $prod->category_id;
     }
 }

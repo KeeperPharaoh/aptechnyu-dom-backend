@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CategoryProductsCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Category;
+use App\Models\CategoryProducts;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,8 @@ class ProductController extends BaseController
     {
         return response(new ProductResource(Product::where('id',$id)->first()));
     }
+
+
 
     public function new()
     {

@@ -24,7 +24,11 @@ class CategoryController extends BaseController
     {
         $category = Category::find($id);
         $products = $category->products()->paginate(8);
-        return response(new CategoryProductsCollection($products));
+        return response()->json([
+            'products'    => new CategoryProductsCollection($products),
+            'title'       => $category->content_title,
+            'description' => $category->description
+        ]);
     }
 
     public function search(Request $request, $search)

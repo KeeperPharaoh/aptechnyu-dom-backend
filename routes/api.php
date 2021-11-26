@@ -8,6 +8,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ContentController;
+use App\Http\Controllers\FilterController;
+
 
 //Регистрация
 Route::post('register', [AuthController::class, 'register']);
@@ -38,7 +40,8 @@ Route::get('/category/{id}',[CategoryController::class, 'caregory']);
 
 //Поиск
 Route::get('/products/{search}',[CategoryController::class, 'search']);
-
+//Фильтрация
+Route::get('/filter/{catalog_id}/price', [FilterController::class, 'price']);
 
 //Контент
 Route::get('/main-content',[ContentController::class, 'mainContent']);
