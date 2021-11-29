@@ -10,13 +10,17 @@ use Illuminate\Http\Request;
 
 class CategoryController extends BaseController
 {
-    public function allCaregory()
+    public function categories()
     {
         $categories = Category::all()->where('show',1);
         return response()->json(new CategoryCollection($categories), 200);
 
     }
+    public function allProducts(){
+        $products = Product::all();
 
+        return response()->json(new CategoryProductsCollection($products));
+    }
     public function caregory($id)
     {
         $category = Category::find($id);
@@ -28,8 +32,9 @@ class CategoryController extends BaseController
         ]);
     }
 
-    public function search(Request $request, $search)
+    public function search(Request $request)
     {
+        $search = $request->find;
         $products = Product::where('title', 'like', "%{$search}%")
             ->orWhere('subtitle', 'like', "%{$search}%")
             ->orWhere('article', 'like', "%{$search}%")
