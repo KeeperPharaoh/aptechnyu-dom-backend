@@ -17,22 +17,21 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
 
 //Личный Кабинет
-Route::middleware('auth:sanctum')->group( function () {
-    Route::get('/profile',[UserController::class, 'index']);
-    Route::put('/profile/profileUpdate',[UserController::class, 'profileUpdate']);
-    Route::put('/profile/change-password',[UserController::class, 'updatePassword']);
-    Route::post('logout', [AuthController::class, 'logout']);
+    Route::middleware('auth:sanctum')->group( function () {
+        Route::get('/profile',[UserController::class, 'index']);
+        Route::put('/profile/profileUpdate',[UserController::class, 'profileUpdate']);
+        Route::put('/profile/change-password',[UserController::class, 'updatePassword']);
+        Route::post('logout', [AuthController::class, 'logout']);
 
-//Избранное
-    Route::get('/favorite',[FavoriteController::class, 'show']);
-    Route::post('favorite/add/{product}', [FavoriteController::class, 'add']);
-    Route::delete('favorite/delete/{product}', [FavoriteController::class, 'delete']);
-//Корзина
-    Route::get('/cart', [CartController::class,'show']);
-    Route::post('/cart/add', [CartController::class,'add']);
-    Route::post('/cart/update', [CartController::class,'update']);
-    Route::delete('/cart/delete', [CartController::class,'delete']);
-
+    //Избранное
+        Route::get('/favorite',[FavoriteController::class, 'show']);
+        Route::post('favorite/add/{product}', [FavoriteController::class, 'add']);
+        Route::delete('favorite/delete/{product}', [FavoriteController::class, 'delete']);
+    //Корзина
+        Route::get('/cart', [CartController::class,'show']);
+        Route::post('/cart/add', [CartController::class,'add']);
+        Route::post('/cart/update', [CartController::class,'update']);
+        Route::delete('/cart/delete', [CartController::class,'delete']);
 });
 
 //Продукт

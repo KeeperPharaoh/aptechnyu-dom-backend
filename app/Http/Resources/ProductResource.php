@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Models\CategoryProducts;
 use App\Models\Favorite;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class ProductResource extends JsonResource
 {
@@ -48,8 +49,13 @@ class ProductResource extends JsonResource
     }
     public function isFavorite($id)
     {
-        $status = Favorite::where('product_id', $id)->first();
-        return !empty($status);
+        if (Auth::guard('sanctum')->check()){
+            $status = Favorite::where('product_id', $id)
+                ->where('user_id',Auth::guard('sanctum')->id())
+                ->first();
+            return !empty($status);
+        }
+        return false;
     }
 
 }

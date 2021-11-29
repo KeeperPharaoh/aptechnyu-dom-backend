@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Favorite;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryProductsCollection extends ResourceCollection
 {
@@ -15,9 +16,13 @@ class CategoryProductsCollection extends ResourceCollection
      */
     public function isFavorite($id)
     {
-        $status = Favorite::where('product_id', $id)->first();
+        if (Auth::guard('sanctum')->check()){
+        $status = Favorite::where('product_id', $id)
+            ->where('user_id',Auth::guard('sanctum')->id())
+            ->first();
         return !empty($status);
-
+        }
+        return false;
     }
 
     public function toArray($request)
