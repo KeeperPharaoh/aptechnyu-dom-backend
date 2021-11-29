@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\CategoryProducts;
+use App\Models\Favorite;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
@@ -30,6 +31,8 @@ class ProductResource extends JsonResource
             'instruction'   =>  $this->instruction,
             'composition'   =>  $this->composition,
             'description'   =>  $this->description,
+            'is_favorite'   => $this->isFavorite($this->id),
+            'is_selected'   => false
         ];
     }
 
@@ -43,4 +46,10 @@ class ProductResource extends JsonResource
             ->first();
         return $prod->category_id;
     }
+    public function isFavorite($id)
+    {
+        $status = Favorite::where('product_id', $id)->first();
+        return !empty($status);
+    }
+
 }

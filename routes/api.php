@@ -9,7 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\FilterController;
-
+use App\Http\Controllers\CartController;
 
 //Регистрация
 Route::post('register', [AuthController::class, 'register']);
@@ -27,6 +27,11 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::get('/favorite',[FavoriteController::class, 'show']);
     Route::post('favorite/add/{product}', [FavoriteController::class, 'add']);
     Route::delete('favorite/delete/{product}', [FavoriteController::class, 'delete']);
+//Корзина
+    Route::get('/cart', [CartController::class,'show']);
+    Route::post('/cart/add', [CartController::class,'add']);
+    Route::post('/cart/update', [CartController::class,'update']);
+    Route::delete('/cart/delete', [CartController::class,'delete']);
 
 });
 
@@ -43,7 +48,7 @@ Route::get('/category/{id}',[CategoryController::class, 'caregory']);
 //Поиск
 Route::get('/products/{search}',[CategoryController::class, 'search']);
 //Фильтрация
-Route::get('/filter/{catalog_id}/price', [FilterController::class, 'price']);
+Route::get('/filter/{category_id}/price', [FilterController::class, 'price']);
 
 //Контент
 Route::get('/main-content',[ContentController::class, 'mainContent']);
