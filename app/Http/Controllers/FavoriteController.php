@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryProductsCollection;
 use App\Models\Favorite;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -14,12 +15,11 @@ class FavoriteController extends Controller
     public function show()
     {
         $favorite = Favorite::where('user_id', Auth::id())->with('products:id,title,subtitle,image,article,price,old_price')->get();
-
         $data = [];
         foreach ($favorite as $key){
             array_push($data, $key->products);
         }
-        return response()->json($data, 200);
+        return response()->json(new CategoryProductsCollection($data), 200);
     }
 
     public function add(Request $request)

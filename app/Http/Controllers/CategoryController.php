@@ -41,9 +41,8 @@ class CategoryController extends BaseController
             ->select('id', 'title', 'subtitle',  'image', 'article', 'price', 'old_price')
             ->paginate(8);
 
-        $data = collect($products->toArray())['data'];
         if ($products->count() > 0){
-            return response()->json($data);
+            return response()->json(new CategoryProductsCollection($products));
         }
 
         return response()->json('Not Found', 404);

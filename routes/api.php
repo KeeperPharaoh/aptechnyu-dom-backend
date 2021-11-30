@@ -31,7 +31,7 @@ Route::post('logout', [AuthController::class, 'logout']);
         Route::get('/cart', [CartController::class,'show']);
         Route::post('/cart/add', [CartController::class,'add']);
         Route::post('/cart/update', [CartController::class,'update']);
-        Route::delete('/cart/delete', [CartController::class,'delete']);
+        Route::delete('/cart/delete/{id}', [CartController::class,'delete']);
 });
 
 //Продукт
