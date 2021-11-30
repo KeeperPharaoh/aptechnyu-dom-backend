@@ -16,12 +16,13 @@ class CategoryController extends BaseController
         return response()->json(new CategoryCollection($categories), 200);
 
     }
+
     public function allProducts(){
         $products = Product::all();
-
         return response()->json(new CategoryProductsCollection($products));
     }
-    public function caregory($id)
+
+    public function category($id)
     {
         $category = Category::find($id);
         $products = $category->products()->paginate(8);

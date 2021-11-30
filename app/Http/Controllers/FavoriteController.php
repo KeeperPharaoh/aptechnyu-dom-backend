@@ -48,7 +48,6 @@ class FavoriteController extends Controller
 
     public function delete(Request $request)
     {
-
         $favorite = Favorite::
         where('user_id', Auth::id())
             ->where('product_id', $request->product)

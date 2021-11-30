@@ -42,8 +42,9 @@ Route::get('/sale', [ProductController::class, 'sale']);
 
 //Категории
 Route::get('/categories', [CategoryController::class, 'categories']);
+Route::get('/category/{id}',[CategoryController::class, 'category']);
 Route::get('/category',[CategoryController::class, 'allProducts']);
-Route::get('/category/search',[CategoryController::class, 'caregory']);
+Route::get('/category/search',[CategoryController::class, 'search']);
 
 //Поиск
 Route::get('/products/{search}',[CategoryController::class, 'search']);

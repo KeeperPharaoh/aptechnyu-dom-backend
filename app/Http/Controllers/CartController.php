@@ -12,11 +12,10 @@ class CartController extends Controller
 {
     public function show()
     {
-        dd(session()->all());
         $cart = session()->get('cart');
         $data = [];
         if (!$cart){
-            return response()->json('Корзина пуста',418);
+            return response()->json('Корзина пуста',422);
         }
         foreach ($cart as $key => $value){
             $product = Product::find($key);

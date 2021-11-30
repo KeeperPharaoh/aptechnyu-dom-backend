@@ -25,6 +25,7 @@ class CategoryProductsCollection extends ResourceCollection
         return false;
     }
 
+
     public function toArray($request)
     {
         return $this->collection->map(function ($item) {
