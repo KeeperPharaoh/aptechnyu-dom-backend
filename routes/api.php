@@ -10,6 +10,7 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\FilterController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 
 //Регистрация
 Route::post('register', [AuthController::class, 'register']);
@@ -32,7 +33,11 @@ Route::post('logout', [AuthController::class, 'logout']);
         Route::post('/cart/add', [CartController::class,'add']);
         Route::post('/cart/update', [CartController::class,'update']);
         Route::delete('/cart/delete/{id}', [CartController::class,'delete']);
-});
+    //Оформление заказа
+        Route::get('/order/history', [OrderController::class, 'history']);
+        Route::post('/order/accept', [OrderController::class, 'accept']);
+    });
+Route::post('/profile/forgot-password',[UserController::class, 'forgotPassword']);
 
 //Продукт
 Route::get('/product/{id}', [ProductController::class, 'show']);

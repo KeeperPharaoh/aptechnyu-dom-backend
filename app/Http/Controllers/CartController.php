@@ -14,8 +14,8 @@ class CartController extends Controller
     {
         $cart = session()->get('cart');
         $data = [];
-        if (!$cart){
-            return response()->json('Корзина пуста',422);
+        if (!isset($cart)){
+            return response()->json([]);
         }
         foreach ($cart as $key => $value){
             $product = Product::find($key);

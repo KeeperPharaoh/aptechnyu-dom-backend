@@ -16,8 +16,6 @@ class ProductController extends BaseController
         return response(new ProductResource(Product::where('id',$id)->first()));
     }
 
-
-
     public function new()
     {
         $category = Category::where('title','Новые товары')->first();

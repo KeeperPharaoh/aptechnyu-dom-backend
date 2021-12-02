@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Models\User;
@@ -17,26 +19,17 @@ class AuthController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'phone_number' => 'required',
-            'password' => 'required',
-        ]);
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
-
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         try {
             $user = User::create($input);
         }catch (\Exception $exception){
-            return $this->sendError('Номер уже зарегистрирован');
+            return $this->sendError('Email уже зарегистрирован');
         }
         $success['token'] = $user->createToken('MyApp')->plainTextToken;
-        $success['user'] = [
+        $success['user']  = [
             'name' => $user->name
         ];
         return $this->sendResponse($success, 'User register successfully.');
@@ -47,13 +40,13 @@ class AuthController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        if(Auth::attempt(['phone_number' => $request->phone_number, 'password' => $request->password])){
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
             $success['token'] = $user->createToken('MyApp')->plainTextToken;
-            $success['user']         = [
-                'phone_number' => $user->phone_number,
+            $success['user']  = [
+                'email' => $user->email,
                 'name' => $user->name
             ];
 
