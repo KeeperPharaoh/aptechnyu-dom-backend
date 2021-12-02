@@ -54,7 +54,6 @@ Route::get('/category/search',[CategoryController::class, 'search']);
 //Поиск
 Route::get('/products/{search}',[CategoryController::class, 'search']);
 //Фильтрация
-Route::get('/filter/{category_id}/price', [FilterController::class, 'price']);
 
 //Контент
 Route::get('/main-content',[ContentController::class, 'mainContent']);

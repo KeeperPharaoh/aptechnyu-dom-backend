@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryProductsCollection;
 use App\Models\Category;
+use App\Models\CategoryProducts;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -18,14 +19,16 @@ class CategoryController extends BaseController
     }
 
     public function allProducts(){
-        $products = Product::all();
+        $products = Product::paginate(8)->all();
         return response()->json(new CategoryProductsCollection($products));
     }
 
-    public function category($id)
+    public function category(Request $request)
     {
-        $category = Category::find($id);
-        $products = $category->products()->paginate(8);
+        $category = Category::find($request->id);
+        $products = $category->products
+            ->where('price',   '>=', $request->min)
+            ->where('price',   '<=', $request->max);
         return response()->json([
             'products'    => new CategoryProductsCollection($products),
             'title'       => $category->content_title,
