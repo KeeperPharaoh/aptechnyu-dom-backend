@@ -15,9 +15,9 @@ class AddAddressToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('city')->default('Алматы');
-            $table->string('street');
-            $table->string('house');
-            $table->string('apartment');
+            $table->string('street')->nullable();
+            $table->string('house')->nullable();
+            $table->string('apartment')->nullable();
             $table->string('porch')->nullable();
             $table->string('floor')->nullable();
         });

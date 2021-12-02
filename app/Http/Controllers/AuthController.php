@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -32,6 +33,7 @@ class AuthController extends BaseController
         $success['user']  = [
             'name' => $user->name
         ];
+        $success['session_id'] = 'laravel_session=' . Session::getId();
         return $this->sendResponse($success, 'User register successfully.');
     }
 
@@ -42,13 +44,15 @@ class AuthController extends BaseController
      */
     public function login(LoginRequest $request)
     {
+
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
             $success['token'] = $user->createToken('MyApp')->plainTextToken;
             $success['user']  = [
-                'email' => $user->email,
-                'name' => $user->name
+                'email'      => $user->email,
+                'name'       => $user->name,
             ];
+            $success['session_id'] = 'laravel_session=' . Session::getId();
 
             return $this->sendResponse($success, 'User login successfully.');
         }
