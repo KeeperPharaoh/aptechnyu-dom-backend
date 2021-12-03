@@ -25,13 +25,21 @@ class CategoryController extends BaseController
 
     public function category(Request $request)
     {
-        if (!$request->max){
-            $request->max = 10000000;
-        }
         $category = Category::find($request->id);
+
+        if (!$request->max){
+            $products = $category->products
+                ->where('price',   '>=', $request->min);
+        }
+        elseif (!$request->min){
+            $products = $category->products
+                ->where('price',   '<=', $request->max);
+        }
+        else{
         $products = $category->products
             ->where('price',   '>=', $request->min)
             ->where('price',   '<=', $request->max);
+        }
         return response()->json([
             'products'    => new CategoryProductsCollection($products),
             'title'       => $category->content_title,
