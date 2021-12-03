@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Benefit;
 use App\Models\FooterContact;
 use App\Models\FooterContent;
+use App\Models\IconFooter;
 use App\Models\MainContent;
 use App\Models\StockBlock;
 use Illuminate\Http\Request;
@@ -40,7 +41,7 @@ class ContentController extends Controller
 
     public function footerContent()
     {
-        $content = FooterContent::first();
+        $content = IconFooter::all();
         return response()->json($content,200);
     }
 
