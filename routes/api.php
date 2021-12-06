@@ -8,10 +8,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ContentController;
-use App\Http\Controllers\FilterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
-
+use App\Http\Controllers\ArticleController;
 //Регистрация
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
@@ -35,7 +34,7 @@ Route::post('/forgot-password',[UserController::class, 'forgotPassword']);
         Route::post('/order/accept', [OrderController::class, 'accept']);
     });
 //Корзина
-Route::get('/cart', [CartController::class,'show']);
+Route::post('/cart', [CartController::class,'show']);
 Route::post('/cart/update', [CartController::class,'update']);
 
 
@@ -46,6 +45,11 @@ Route::get('/new-product', [ProductController::class, 'new']);
 Route::get('/bestsellers', [ProductController::class, 'best']);
 Route::get('/sale', [ProductController::class, 'sale']);
 Route::get('/analogs/{id}', [ProductController::class, 'analogs']);
+
+//Статьи
+Route::get('/articles', [ArticleController::class, 'allArticles']);
+Route::get('/articles/{id}', [ArticleController::class, 'articles']);
+Route::get('/article/{id}', [ArticleController::class, 'article']);
 //Категории
 Route::get('/categories', [CategoryController::class, 'categories']);
 Route::get('/category/{id}',[CategoryController::class, 'category']);
