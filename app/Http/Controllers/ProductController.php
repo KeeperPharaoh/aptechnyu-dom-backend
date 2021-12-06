@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\CategoryProducts;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends BaseController
 {
@@ -18,8 +19,8 @@ class ProductController extends BaseController
 
     public function analogs($id)
     {
-        $category = Category::where($id);
-        $analogs = Product::all()->random(5);
+        $category = Category::find($id);
+        $analogs = $category->products->random(5);
         return response(new CategoryProductsCollection($analogs));
     }
 
