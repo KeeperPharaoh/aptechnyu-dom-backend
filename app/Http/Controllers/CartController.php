@@ -10,56 +10,22 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function show()
+    public function show(Request $request)
     {
-        $cart = session()->get('cart');
+        $cart = $request->all();
         $data = [];
-        if (!isset($cart)){
-            return response()->json([]);
-        }
-        foreach ($cart as $key => $value){
-            $product = Product::find($key);
+        foreach ($cart as $value){
+            $product = Product::find($value['id']);
             $product->quantity = $value['quantity'];
             array_push($data,$product);
         }
-
         return response()->json(new CartCollection($data));
     }
 
-    public function add(CartRequest $request)
+    public function add(Request $request)
     {
-        $cart = session()->get('cart');
 
-        if (!$cart) {
-            $cart[$request->id] = [
-                "quantity"  => $request->quantity
-            ];
-        } else {
-            $cart[$request->id] = ['quantity' => $request->quantity];
-        }
-
-        session()->put('cart',$cart);
-
-        return response()->json([
-            'message' => 'Операция прошла успешно'
-        ]);
     }
 
-
-    public function delete($id)
-    {
-        $cart = session()->get('cart');
-        if (!isset($cart[$id])){
-            return response()->json([
-                'message' => 'Продукта нету в корзине'
-            ],404);
-        }
-        unset($cart[$id]);
-        session()->put('cart',$cart);
-
-        return response()->json([
-            'message' => 'Операция прошла успешно'
-        ]);
-    }
 }
 

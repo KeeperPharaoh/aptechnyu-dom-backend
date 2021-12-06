@@ -16,6 +16,13 @@ class ProductController extends BaseController
         return response(new ProductResource(Product::where('id',$id)->first()));
     }
 
+    public function analogs($id)
+    {
+        $category = Category::where($id);
+        $analogs = Product::all()->random(5);
+        return response(new CategoryProductsCollection($analogs));
+    }
+
     public function new()
     {
         $category = Category::where('title','Новые товары')->first();

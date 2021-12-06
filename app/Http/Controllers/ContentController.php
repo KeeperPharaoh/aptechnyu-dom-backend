@@ -8,6 +8,7 @@ use App\Models\FooterContact;
 use App\Models\FooterContent;
 use App\Models\IconFooter;
 use App\Models\MainContent;
+use App\Models\Slider;
 use App\Models\StockBlock;
 use Illuminate\Http\Request;
 
@@ -20,15 +21,27 @@ class ContentController extends Controller
         return response()->json($main,200);
     }
 
+    public function slider()
+    {
+        $slider = Slider::all();
+        return response()->json($slider,200);
+    }
+
     public function benefit()
     {
         $benefits = Benefit::all();
         return response()->json($benefits,200);
     }
 
-    public function stockBlock()
+    public function firstBlock()
     {
-        $stocks = StockBlock::all()->take(2);
+        $stocks = StockBlock::first();
+        return response()->json($stocks,200);
+    }
+
+    public function secondBlock()
+    {
+        $stocks = StockBlock::skip(1)->first();
         return response()->json($stocks,200);
     }
 

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -23,7 +24,6 @@ class UserController extends Controller
     {
         $user = User::where('id', Auth::id())->first();
         $update = $request->validated();
-
         $user->update($update);
 
         $user->save();
@@ -58,11 +58,16 @@ class UserController extends Controller
 
     public function forgotPassword(ForgotPasswordRequest $request)
     {
-        $data = "https://www.google.com/";
-        Mail::to($request->email)->send(new ForgotPassword($data));
+        $user = User::where('email', $request->email)->first();
+        $new_password = Str::random(8);
+        $user->password = Hash::make($new_password);
+        $user->save();
+        Mail::to($request->email)->send(new ForgotPassword($new_password));
 
         return response()->json([
             "message" => "Sent successfully"
             ]);
     }
+
+
 }

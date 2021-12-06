@@ -24,12 +24,17 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [],
-            'surname' => [],
-            'address' => [],
-            'avatar' => [],
-            'phone_number' => [],
-            'email' => ['email'],
+            'name'         => ['string'],
+            'surname'      => ['string'],
+            'address'      => ['string'],
+            'avatar'       => ['string'],
+            'phone_number' => ['string'],
+            'email'        => ['email'],
+            'street'       => ['string'],
+            'house'        => ['string'],
+            'apartment'    => ['integer'],
+            'porch'        => ['integer'],
+            'floor'        => ['integer']
         ];
     }
 }

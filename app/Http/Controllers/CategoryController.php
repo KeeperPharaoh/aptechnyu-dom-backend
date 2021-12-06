@@ -40,6 +40,7 @@ class CategoryController extends BaseController
             ->where('price',   '>=', $request->min)
             ->where('price',   '<=', $request->max);
         }
+        $products = $products->forPage($request->page,8);
         return response()->json([
             'products'    => new CategoryProductsCollection($products),
             'title'       => $category->content_title,
@@ -62,4 +63,6 @@ class CategoryController extends BaseController
 
         return response()->json('Not Found', 404);
     }
+
+
 }

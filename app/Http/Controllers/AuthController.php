@@ -33,7 +33,6 @@ class AuthController extends BaseController
         $success['user']  = [
             'name' => $user->name
         ];
-        $success['session_id'] = 'laravel_session=' . Session::getId();
         return $this->sendResponse($success, 'User register successfully.');
     }
 
@@ -44,7 +43,6 @@ class AuthController extends BaseController
      */
     public function login(LoginRequest $request)
     {
-
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
             $success['token'] = $user->createToken('MyApp')->plainTextToken;
@@ -52,8 +50,6 @@ class AuthController extends BaseController
                 'email'      => $user->email,
                 'name'       => $user->name,
             ];
-            $success['session_id'] = 'laravel_session=' . Session::getId();
-
             return $this->sendResponse($success, 'User login successfully.');
         }
         else{

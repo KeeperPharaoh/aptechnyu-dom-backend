@@ -16,6 +16,7 @@ use App\Http\Controllers\OrderController;
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
+Route::post('/forgot-password',[UserController::class, 'forgotPassword']);
 
 //Личный Кабинет
     Route::middleware('auth:sanctum')->group( function () {
@@ -28,19 +29,19 @@ Route::post('logout', [AuthController::class, 'logout']);
         Route::get('/favorite',[FavoriteController::class, 'show']);
         Route::post('favorite/add/{product}', [FavoriteController::class, 'add']);
         Route::delete('favorite/delete/{product}', [FavoriteController::class, 'delete']);
-    //Корзина
-        Route::get('/cart', [CartController::class,'show']);
-        Route::post('/cart/add', [CartController::class,'add']);
-        Route::post('/cart/update', [CartController::class,'update']);
-        Route::delete('/cart/delete/{id}', [CartController::class,'delete']);
+
     //Оформление заказа
         Route::get('/order/history', [OrderController::class, 'history']);
         Route::post('/order/accept', [OrderController::class, 'accept']);
     });
-Route::post('/profile/forgot-password',[UserController::class, 'forgotPassword']);
+//Корзина
+Route::get('/cart', [CartController::class,'show']);
+Route::post('/cart/update', [CartController::class,'update']);
+
 
 //Продукт
 Route::get('/product/{id}', [ProductController::class, 'show']);
+Route::get('/analogs/{id}', [ProductController::class, 'analogs']);
 Route::get('/new-product', [ProductController::class, 'new']);
 Route::get('/bestsellers', [ProductController::class, 'best']);
 Route::get('/sale', [ProductController::class, 'sale']);
@@ -53,13 +54,14 @@ Route::get('/category/search',[CategoryController::class, 'search']);
 
 //Поиск
 Route::get('/products/{search}',[CategoryController::class, 'search']);
-//Фильтрация
 
 //Контент
 Route::get('/main-content',[ContentController::class, 'mainContent']);
 Route::get('/benefit', [ContentController::class, 'benefit']);
-Route::get('/stock-block',[ContentController::class, 'stockBlock']);
+Route::get('/first-block',[ContentController::class, 'firstBlock']);
+Route::get('/second-block',[ContentController::class, 'secondBlock']);
 Route::get('/footer-contact',[ContentController::class, 'footerContact']);
 Route::get('/footer-content',[ContentController::class, 'footerContent']);
 Route::get('/addresses',[ContentController::class, 'addresses']);
+Route::get('/slider', [ContentController::class, 'slider']);
 
