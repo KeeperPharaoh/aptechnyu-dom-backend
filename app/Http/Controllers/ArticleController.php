@@ -13,7 +13,10 @@ class ArticleController extends Controller
         $categories = ArticleCategory::all();
         foreach ($categories as $category){
             $articles = Article::where('category_id', $category->id)->get();
-            $data[$category->title] = $articles;
+            $data[] = [
+                'title'    => $category->title,
+                'articles' => $articles
+            ];
         }
         return response()->json($data);
     }
