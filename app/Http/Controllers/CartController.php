@@ -10,22 +10,21 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function show(Request $request)
+    public function show(CartRequest $request)
     {
         $cart = $request->all();
         $data = [];
         foreach ($cart as $value){
             $product = Product::find($value['id']);
+            if (isset($value['price']) && $product->price != $value['price']){
+                return response()->json([
+                    'message' => 'Ошибка данные не совпадают'
+                ],409);
+            }
             $product->quantity = $value['quantity'];
             array_push($data,$product);
         }
         return response()->json(new CartCollection($data));
     }
-
-    public function add(Request $request)
-    {
-
-    }
-
 }
 

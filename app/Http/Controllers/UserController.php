@@ -22,10 +22,15 @@ class UserController extends Controller
 
     public function profileUpdate(ProfileRequest $request)
     {
-        $user = User::where('id', Auth::id())->first();
-        $update = $request->validated();
-        $user->update($update);
-
+        try{
+            $user = User::where('id', Auth::id())->first();
+            $update = $request->validated();
+            $user->update($update);
+        }catch (\Exception $exception){
+            return response()->json([
+                'message' => 'Email уже зарегистрирован'
+            ],418);
+        }
         $user->save();
 
         return response()->json([

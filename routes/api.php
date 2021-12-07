@@ -11,6 +11,8 @@ use App\Http\Controllers\ContentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\EmailController;
+
 //Регистрация
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
@@ -35,7 +37,7 @@ Route::post('/forgot-password',[UserController::class, 'forgotPassword']);
     });
 //Корзина
 Route::post('/cart', [CartController::class,'show']);
-Route::post('/cart/update', [CartController::class,'update']);
+Route::post('/cart/check', [CartController::class,'check']);
 
 
 //Продукт
@@ -69,3 +71,5 @@ Route::get('/footer-content',[ContentController::class, 'footerContent']);
 Route::get('/addresses',[ContentController::class, 'addresses']);
 Route::get('/slider', [ContentController::class, 'slider']);
 
+//Рассылка
+Route::post('/email', [EmailController::class,'save']);

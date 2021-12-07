@@ -24,17 +24,18 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'         => ['string'],
-            'surname'      => ['string'],
-            'address'      => ['string'],
-            'avatar'       => ['string'],
-            'phone_number' => ['string'],
-            'email'        => ['email'],
-            'street'       => ['string'],
-            'house'        => ['string'],
-            'apartment'    => ['integer'],
-            'porch'        => ['integer'],
-            'floor'        => ['integer']
+            'email'        => 'nullable|email',
+            'name'         => 'nullable',
+            'surname'      => 'nullable',
+            'address'      => 'nullable',
+            'avatar'       => 'nullable',
+            'phone_number' => 'nullable',
+            'city'         => 'nullable',
+            'street'       => 'nullable',
+            'house'        => 'nullable',
+            'apartment'    => 'nullable',
+            'porch'        => 'nullable',
+            'floor'        => 'nullable'
         ];
     }
 }

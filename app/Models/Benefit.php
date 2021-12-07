@@ -12,8 +12,11 @@ class Benefit extends BaseModel
 
     public function getImageAttribute($value)
     {
+        if ($value != null){
         $value = self::jsonDecode($value);
         return Voyager::image($value);
+        }
+        return true;
     }
 
 
