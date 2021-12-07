@@ -17,7 +17,7 @@ class IconFooter extends BaseModel
             $value = self::jsonDecode($value);
             return Voyager::image($value);
         }
-        return true;
+        return "";
     }
 
 }
