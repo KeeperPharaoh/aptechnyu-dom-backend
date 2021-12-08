@@ -72,4 +72,4 @@ Route::get('/addresses',[ContentController::class, 'addresses']);
 Route::get('/slider', [ContentController::class, 'slider']);
 
 //Рассылка
-Route::post('/email', [EmailController::class,'save']);
+Route::get('/email', [EmailController::class,'save']);

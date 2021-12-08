@@ -12,7 +12,10 @@ class EmailController extends Controller
         $request->validate([
             'email' => 'required|email',
         ]);
-        Mailing::save($request->email);
+        $mail = new Mailing();
+        $mail->email = $request->email;
+        $mail->save();
+
         return response()->json([
             'message'   =>  'Операция прошла успешно'
         ]);
