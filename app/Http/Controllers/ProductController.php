@@ -21,7 +21,10 @@ class ProductController extends BaseController
     {
         $category = Category::find($id);
         try {
-        $analogs = $category->products->random(5);
+        $analogs = $category->products;
+        if (count($analogs) > 5){
+            $analogs = $analogs->random(5);
+        }
         }catch (\Exception $exception){
             return response()->json([
                 'message' => "Товар не найден"
