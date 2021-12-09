@@ -20,7 +20,13 @@ class ProductController extends BaseController
     public function analogs($id)
     {
         $category = Category::find($id);
+        try {
         $analogs = $category->products->random(5);
+        }catch (\Exception $exception){
+            return response()->json([
+                'message' => "Товар не найден"
+            ],404);
+        }
         return response(new CategoryProductsCollection($analogs));
     }
 

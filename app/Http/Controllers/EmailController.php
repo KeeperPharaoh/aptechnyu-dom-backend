@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmailRequest;
 use App\Models\Mailing;
 use Illuminate\Http\Request;
 
 class EmailController extends Controller
 {
-    public function save(Request $request)
+    public function save(EmailRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-        ]);
         $mail = new Mailing();
         $mail->email = $request->email;
         $mail->save();
