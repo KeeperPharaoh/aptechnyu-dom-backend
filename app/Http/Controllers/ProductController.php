@@ -9,6 +9,7 @@ use App\Models\CategoryProducts;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use function PHPUnit\Framework\isEmpty;
 
 class ProductController extends BaseController
 {
@@ -20,16 +21,16 @@ class ProductController extends BaseController
     public function analogs($id)
     {
         $category = Category::find($id);
-        try {
         $analogs = $category->products;
         if (count($analogs) > 5){
             $analogs = $analogs->random(5);
-        }
-        }catch (\Exception $exception){
+        }elseif (isEmpty($analogs)){
             return response()->json([
                 'message' => "Товар не найден"
             ],404);
         }
+
+
         return response(new CategoryProductsCollection($analogs));
     }
 
