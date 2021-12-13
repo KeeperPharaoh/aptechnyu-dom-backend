@@ -13,15 +13,5 @@ class Category extends BaseModel
     public function products(){
         return $this->belongsToMany(Product::class,'category_products','category_id','product_id');
     }
-
-
-    public function getImageAttribute($value)
-    {
-        if ($value != null){
-            $value = self::jsonDecode($value);
-            return Voyager::image($value);
-        }
-        return "";
-    }
 }
 

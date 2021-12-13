@@ -19,11 +19,12 @@ class ProductResource extends JsonResource
         }
         $category_id = self::findCategory($this->id);
         return [
+            'id'            =>  $this->id,
             'category_id'   =>  $category_id,
             'title'         =>  $this->title,
             'subtitle'      =>  $this->subtitle,
             'article'       =>  $this->article,
-            'image'         =>  $this->image,
+            'image'         => env('APP_URL') . '/storage/' . $this->image,
             'price'         =>  $this->price,
             'old_price'     =>  $this->old_price,
             'stock'         =>  $stock,
@@ -33,7 +34,6 @@ class ProductResource extends JsonResource
             'composition'   =>  $this->composition,
             'description'   =>  $this->description,
             'is_favorite'   => $this->isFavorite($this->id),
-            'is_selected'   => false
         ];
     }
 

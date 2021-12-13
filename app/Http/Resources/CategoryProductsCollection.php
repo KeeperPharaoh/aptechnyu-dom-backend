@@ -12,7 +12,7 @@ class CategoryProductsCollection extends ResourceCollection
      * Transform the resource collection into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @return bool
      */
     public function isFavorite($id)
     {
@@ -33,12 +33,11 @@ class CategoryProductsCollection extends ResourceCollection
                 'id'           => $item->id,
                 'title'        => $item->title,
                 'subtitle'     => $item->subtitle,
-                'image'        => $item->image,
+                'image'         => env('APP_URL') . '/storage/' . $item->image,
                 'article'      => $item->article,
                 'price'        => $item->price,
                 'old_price'    => $item->old_price,
                 'is_favorite'  => $this->isFavorite($item->id),
-                'is_selected'  => false
             ];
         });
     }

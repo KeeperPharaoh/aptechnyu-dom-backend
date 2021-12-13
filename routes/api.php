@@ -43,9 +43,6 @@ Route::post('/cart/check', [CartController::class,'check']);
 //Продукт
 Route::get('/product/{id}', [ProductController::class, 'show']);
 Route::get('/analogs/{id}', [ProductController::class, 'analogs']);
-Route::get('/new-product', [ProductController::class, 'new']);
-Route::get('/bestsellers', [ProductController::class, 'best']);
-Route::get('/sale', [ProductController::class, 'sale']);
 Route::get('/analogs/{id}', [ProductController::class, 'analogs']);
 
 //Статьи
@@ -56,8 +53,9 @@ Route::get('/article/{id}', [ArticleController::class, 'article']);
 Route::get('/categories', [CategoryController::class, 'categories']);
 Route::get('/category/{id}',[CategoryController::class, 'category']);
 Route::get('/category',[CategoryController::class, 'allProducts']);
-Route::get('/category/search',[CategoryController::class, 'search']);
-
+Route::get('/new-product', [CategoryController::class, 'new']);
+Route::get('/bestsellers', [CategoryController::class, 'best']);
+Route::get('/sale', [CategoryController::class, 'sale']);
 //Поиск
 Route::get('/products/{search}',[CategoryController::class, 'search']);
 

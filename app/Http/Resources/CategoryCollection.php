@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class CategoryCollection extends ResourceCollection
+class CategoryCollection extends BaseCollection
 {
 
     public function toArray($request)
@@ -13,7 +13,8 @@ class CategoryCollection extends ResourceCollection
             return [
                 'id'        => $item->id,
                 'title'     => $item->title,
-                'image'     => $item->image
+                'image'     => env('APP_URL') . '/storage/' . self::jsonDecode($item->image),
+
             ];
         });
     }

@@ -11,9 +11,4 @@ class Article extends Model
     use HasFactory;
 
     protected $hidden = ['created_at','updated_at'];
-
-    public function getImageAttribute($value)
-    {
-        return Voyager::image($value);
-    }
 }

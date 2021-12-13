@@ -4,13 +4,13 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class CartCollection extends ResourceCollection
+class CartCollection extends BaseCollection
 {
     /**
      * Transform the resource collection into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     *
      */
     public function toArray($request)
     {
@@ -20,7 +20,7 @@ class CartCollection extends ResourceCollection
                 'quantity'     => $item->quantity,
                 'title'        => $item->title,
                 'subtitle'     => $item->subtitle,
-                'image'        => $item->image,
+                'image'        => env('APP_URL') . '/storage/' . $item->image,
                 'price'        => $item->price,
                 'old_price'    => $item->old_price,
             ];

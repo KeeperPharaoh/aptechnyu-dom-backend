@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BenefitCollection;
+use App\Http\Resources\BlockResource;
+use App\Http\Resources\FooterIcoCollection;
+use App\Http\Resources\MainContentResource;
+use App\Http\Resources\SliderCollection;
 use App\Models\Address;
 use App\Models\Benefit;
 use App\Models\FooterContact;
-use App\Models\FooterContent;
 use App\Models\IconFooter;
 use App\Models\MainContent;
 use App\Models\Slider;
@@ -14,35 +18,34 @@ use Illuminate\Http\Request;
 
 class ContentController extends Controller
 {
-    public function mainContent()
+    public function mainContent(): \Illuminate\Http\JsonResponse
     {
         $main = MainContent::first();
-
-        return response()->json($main,200);
+        return response()->json(new MainContentResource($main));
     }
 
     public function slider()
     {
         $slider = Slider::all();
-        return response()->json($slider,200);
+        return response()->json(new SliderCollection($slider));
     }
 
     public function benefit()
     {
         $benefits = Benefit::all();
-        return response()->json($benefits,200);
+        return response()->json(new BenefitCollection($benefits));
     }
 
     public function firstBlock()
     {
         $stocks = StockBlock::first();
-        return response()->json($stocks,200);
+        return response()->json(new BlockResource($stocks),);
     }
 
     public function secondBlock()
     {
         $stocks = StockBlock::skip(1)->first();
-        return response()->json($stocks,200);
+        return response()->json(new BlockResource($stocks),);
     }
 
     public function footerContact()
@@ -55,7 +58,7 @@ class ContentController extends Controller
     public function footerContent()
     {
         $content = IconFooter::all();
-        return response()->json($content,200);
+        return response()->json(new FooterIcoCollection($content));
     }
 
     public function addresses()

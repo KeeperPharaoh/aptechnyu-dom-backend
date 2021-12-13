@@ -4,12 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryResourse extends JsonResource
+class BlockResource extends JsonResource
 {
-    /**
-     * @var mixed
-     */
-
     /**
      * Transform the resource into an array.
      *
@@ -19,7 +15,11 @@ class CategoryResourse extends JsonResource
     public function toArray($request): array
     {
         return [
-            'title' => $this->title
+            'title'     => $this->title,
+            'subtitle'  => $this->subtitle,
+            'image'         => env('APP_URL') . '/storage/' . $this->image,
+            'button'    => $this->button,
+            'link'      => $this->link
         ];
     }
 }

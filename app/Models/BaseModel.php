@@ -8,9 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class BaseModel extends Model
 {
     use HasFactory;
-
-    public static function jsonDecode($json){
-        $json = json_decode($json, true);
-        return $json[0]['download_link'];
-    }
 }

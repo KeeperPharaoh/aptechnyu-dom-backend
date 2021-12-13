@@ -34,23 +34,4 @@ class ProductController extends BaseController
         return response(new CategoryProductsCollection($analogs));
     }
 
-    public function new()
-    {
-        $category = Category::where('title','Новые товары')->first();
-        $products = $category->products()->get()->sortBy('order')->take(5);
-        return response(new CategoryProductsCollection($products));
-    }
-
-    public function best()
-    {
-        $category = Category::where('title','Хиты продаж')->first();
-        $products = $category->products()->get()->sortBy('order')->take(5);
-        return response(new CategoryProductsCollection($products));
-    }
-    public function sale()
-    {
-        $category = Category::where('title','Расспродажа товаров')->first();
-        $products = $category->products()->get()->sortBy('order')->take(5);
-        return response(new CategoryProductsCollection($products));
-    }
 }

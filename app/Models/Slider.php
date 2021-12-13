@@ -11,9 +11,4 @@ class Slider extends Model
     use HasFactory;
 
     protected $hidden = ['id', 'created_at', 'updated_at'];
-
-    public function getImageAttribute($value)
-    {
-        return Voyager::image($value);
-    }
 }
