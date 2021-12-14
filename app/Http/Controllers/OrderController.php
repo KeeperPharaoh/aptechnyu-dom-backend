@@ -23,13 +23,16 @@ class OrderController extends Controller
                 'status'        => $status,
                 'name'          => $userSetting['name'],
                 'phone_number'  => $userSetting['name'],
-                'email'         => $userSetting['email'],
+                'email'         => $userSetting['email']     ?? '',
                 'city'          => $userSetting['city'],
+                'street'        => $userSetting['street'],
                 'house'         => $userSetting['house'],
-                'apartment'     => $userSetting['apartment'],
-                'porch'         => $userSetting['porch'],
-                'floor'         => $userSetting['floor']
+                'apartment'     => $userSetting['apartment'] ?? '',
+                'porch'         => $userSetting['porch']     ?? '',
+                'floor'         => $userSetting['floor']     ?? '',
+                'comment'       => $userSetting['comment']   ?? ''
                 ]);
+
         foreach ($products as $product) {
             Order::query()->create([
                 'cart_id'    => $cart->id,
