@@ -75,3 +75,5 @@ Route::get('/career',[ContentController::class, 'career']);
 
 //Рассылка
 Route::post('/email', [EmailController::class,'save']);
+//Сохранение вакансий
+Route::post('/store/vacancies',[EmailController::class, 'feedback']);
