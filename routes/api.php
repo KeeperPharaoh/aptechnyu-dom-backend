@@ -68,6 +68,10 @@ Route::get('/footer-contact',[ContentController::class, 'footerContact']);
 Route::get('/footer-content',[ContentController::class, 'footerContent']);
 Route::get('/addresses',[ContentController::class, 'addresses']);
 Route::get('/slider', [ContentController::class, 'slider']);
+Route::get('/condition',[ContentController::class, 'condition']);
+Route::get('/procedure',[ContentController::class, 'procedure']);
+Route::get('/bonus-content ',[ContentController::class, 'bonusContent']);
+Route::get('/career',[ContentController::class, 'career']);
 
 //Рассылка
 Route::post('/email', [EmailController::class,'save']);
