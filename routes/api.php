@@ -32,8 +32,8 @@ Route::post('/forgot-password',[UserController::class, 'forgotPassword']);
         Route::delete('favorite/delete/{product}', [FavoriteController::class, 'delete']);
 
     //Оформление заказа
+        Route::post('/order/create', [OrderController::class, 'create']);
         Route::get('/order/history', [OrderController::class, 'history']);
-        Route::post('/order/accept', [OrderController::class, 'accept']);
     });
 //Корзина
 Route::post('/cart', [CartController::class,'show']);

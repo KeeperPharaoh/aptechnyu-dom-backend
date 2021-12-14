@@ -32,7 +32,8 @@ class User extends \TCG\Voyager\Models\User
         'house',
         'apartment',
         'porch',
-        'floor'
+        'floor',
+        'bonus'
     ];
 
     /**

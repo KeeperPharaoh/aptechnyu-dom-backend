@@ -26,7 +26,8 @@ class UserResourse extends JsonResource
             'house'        => $this->house,
             'apartment'    => $this->apartment,
             'porch'        => $this->porch,
-            'floor'        => $this->floor
+            'floor'        => $this->floor,
+            'bonus'        => $this->bonus
         ];
     }
 }

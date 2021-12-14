@@ -11,35 +11,10 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function index ( $request){
-    }
-    public function accept(OrderRequest $request){
-        $carts = session()->get('cart');
+    public function create(OrderRequest $request){
 
-        User::where('id',Auth::id())->update([
-            'city'      => $request->city,
-            'street'    => $request->street,
-            'house'     => $request->house,
-            'apartment' => $request->apartment,
-            'porch'     => $request->porch,
-            'floor'     => $request->floor
-        ]);
-        $cartModel =Cart::create([
-            'user_id'   => Auth::id(),
-            'sum'       => 123
-        ]);
-
-        foreach ($carts as $key => $value){
-            Order::create([
-                'product_id' => $key,
-                'cart_id'    => $cartModel->id,
-                'quantity'   => $value
-            ]);
-        }
-        dd(session()->get('cart'));
     }
 
     public function history(){
-
     }
 }

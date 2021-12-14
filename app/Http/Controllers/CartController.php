@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CartRequest;
+use App\Http\Requests\CheckCartRequest;
 use App\Http\Resources\CartCollection;
 use App\Http\Resources\CategoryProductsCollection;
 use App\Models\Product;
@@ -22,9 +23,29 @@ class CartController extends Controller
                 ],409);
             }
             $product->quantity = $value['quantity'];
-            array_push($data,$product);
+            $data[]            = $product;
         }
         return response()->json(new CartCollection($data));
+    }
+
+    public function check(CheckCartRequest $request)
+    {
+        $request   = $request->validated();
+        $products  = $request['data'];
+        $total_sum = 0;
+        foreach ($products as $product) {
+            $data = Product::query()->find($product['id']);
+            $price = $data->price;
+            $total_sum += $price * $product['quantity'];
+        }
+        if ($request['total_sum'] != $total_sum){
+            return response()->json([
+                'message' => 'Ошибка корзины'
+                ],400);
+        }
+        return response()->json([
+            'message' => 'Операция прошла успешно'
+            ],200);
     }
 }
 

@@ -7,6 +7,8 @@ use App\Http\Requests\FeedbaackRequest;
 use App\Models\Feedback;
 use App\Models\Mailing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class EmailController extends Controller
 {
@@ -23,18 +25,15 @@ class EmailController extends Controller
 
     public function feedback(FeedbaackRequest $request)
     {
-        $feedback = new Feedback();
-        $feedback->name = $request->name;
+        $name = $request->post('name');
         $file = $request->file('file');
-        $path = $file->store('files');
+
+        $path = Storage::disk('public')->put('files', $file);
+
+        $feedback = new Feedback();
+        $feedback->name = $name;
         $feedback->file = $path;
-        $resume = $request->file('file')->store('public/files');
-        $file =[];
-        $file[] = [
-            'download_link' => str_replace('public/', '', $resume),
-            'original_name' => 'download_link',
-        ];
-        $feedback->file = $file[0]['download_link'];
+
         $feedback->save();
 
         return response()->json([

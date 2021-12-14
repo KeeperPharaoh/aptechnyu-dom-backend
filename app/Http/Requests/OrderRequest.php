@@ -24,10 +24,18 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'city' => 'required',
-            'street' => 'required',
-            'house' => 'required',
-            'apartment' => 'required',
+            'user'                 => 'required',
+            'user.*name'          => 'required|string',
+            'user.*phone_number'  => 'required',
+            'user.*email'         => 'string|email',
+            'user.*city'          => 'required|string',
+            'user.*street'        => 'required|string',
+            'user.*house'         => 'required',
+            'user.*apartment'     => 'required',
+            'user.*comment'       => 'string|nullable',
+            'user.*order_type'    => 'required|integer',
+            'user.*payment_type'  => 'required|integer',
+            'user.*bonus'         => 'required|boolean'
         ];
     }
 }

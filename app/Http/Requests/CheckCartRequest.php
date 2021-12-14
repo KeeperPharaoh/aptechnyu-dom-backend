@@ -4,13 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FeedbaackRequest extends FormRequest
+class CheckCartRequest extends FormRequest
 {
-    /**
-     * @var mixed
-     */
-    private $name;
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -29,8 +24,11 @@ class FeedbaackRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'file' => 'required'
+            'total_sum'      => 'required',
+            'data'           => 'required',
+            'data.*.id'       => 'required|integer|exists:products',
+            'data.*.quantity' => 'required|integer'
         ];
+        //
     }
 }
