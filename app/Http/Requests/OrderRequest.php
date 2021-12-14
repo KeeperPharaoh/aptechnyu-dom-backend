@@ -35,7 +35,13 @@ class OrderRequest extends FormRequest
             'user.*comment'       => 'string|nullable',
             'user.*order_type'    => 'required|integer',
             'user.*payment_type'  => 'required|integer',
-            'user.*bonus'         => 'required|boolean'
+            'user.*bonus'         => 'required|boolean',
+            'user.*total_sum'     => 'required',
+            'user.*porch'         => 'required|nullable',
+            'user.*floor'         => 'required|nullable',
+            'data'                => 'required',
+            'data.*.id'           => 'required|integer|exists:products',
+            'data.*.quantity'     => 'required|integer'
         ];
     }
 }

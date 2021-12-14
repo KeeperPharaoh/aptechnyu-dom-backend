@@ -11,8 +11,35 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function create(OrderRequest $request){
+    public function create(OrderRequest $request): \Illuminate\Http\JsonResponse
+    {
+        $products     = $request->data;
+        $userSetting  = $request->user;
+        $status = ($userSetting['payment_type'] == 1) ? "Оплата при получение" : "Неоплачено";
 
+        $cart = Cart::query()->create([
+                'user_id'       => Auth::id(),
+                'sum'           => $userSetting['total_sum'],
+                'status'        => $status,
+                'name'          => $userSetting['name'],
+                'phone_number'  => $userSetting['name'],
+                'email'         => $userSetting['email'],
+                'city'          => $userSetting['city'],
+                'house'         => $userSetting['house'],
+                'apartment'     => $userSetting['apartment'],
+                'porch'         => $userSetting['porch'],
+                'floor'         => $userSetting['floor']
+                ]);
+        foreach ($products as $product) {
+            Order::query()->create([
+                'cart_id'    => $cart->id,
+                'quantity'   => $product['quantity'],
+                'product_id' => $product['id']
+            ]);
+        }
+        return response()->json([
+            'message' => 'Операция прошла успешно'
+            ],200);
     }
 
     public function history(){
