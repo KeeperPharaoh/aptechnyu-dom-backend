@@ -46,5 +46,8 @@ class OrderController extends Controller
     }
 
     public function history(){
+        $cart   = Cart::query()->where('user_id',Auth::id())->get();
+        $order  = Order::query()->where('cart_id',$cart->id)->get();
+        dd($order);
     }
 }
