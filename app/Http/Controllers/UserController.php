@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-
+use Illuminate\Http\JsonResponse;
 class UserController extends Controller
 {
     public function index()
@@ -20,7 +20,7 @@ class UserController extends Controller
         return new UserResourse(Auth()->user());
     }
 
-    public function profileUpdate(ProfileRequest $request)
+    public function profileUpdate(ProfileRequest $request): JsonResponse
     {
         try{
             $user = User::where('id', Auth::id())->first();
