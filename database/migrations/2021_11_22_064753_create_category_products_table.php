@@ -22,8 +22,14 @@ class CreateCategoryProductsTable extends Migration
             $table->index('category_id', 'category_product_category_idx');
             $table->index('product_id', 'category_product_product_idx');
 
-            $table->foreign('category_id', 'category_product_category_fk')->on('categories')->references('id')->onDelete('cascade');;
-            $table->foreign('product_id', 'category_product_product_fk')->on('products')->references('id')->onDelete('cascade');;
+            $table->foreign('category_id', 'category_product_category_fk')
+                  ->on('categories')
+                  ->references('id')
+                  ->onDelete('cascade');
+            $table->foreign('product_id', 'category_product_product_fk')
+                  ->on('products')
+                  ->references('id')
+                  ->onDelete('cascade');
 
 
             $table->timestamps();
@@ -37,6 +43,7 @@ class CreateCategoryProductsTable extends Migration
      */
     public function down()
     {
+
         Schema::dropIfExists('category_products');
     }
 }

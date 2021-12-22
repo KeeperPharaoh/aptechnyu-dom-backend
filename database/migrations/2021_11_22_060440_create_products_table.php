@@ -24,9 +24,9 @@ class CreateProductsTable extends Migration
             $table->integer('old_price')->nullable();
             $table->boolean('stock');
             $table->string('country');
-            $table->string('manufacturer');
-            $table->text('instruction');
-            $table->text('description');
+            $table->string('manufacturer')->nullable();
+            $table->text('instruction')->nullable();
+            $table->text('description')->nullable();
             $table->integer('order');
             $table->timestamps();
         });

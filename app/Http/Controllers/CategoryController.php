@@ -17,7 +17,9 @@ class CategoryController extends BaseController
 {
     public function categories(): \Illuminate\Http\JsonResponse
     {
-        $categories = Category::all()->where('show',1);
+        $categories = Category::query()
+                              ->where('show',1)
+                              ->get();
         return response()->json(new CategoryCollection($categories), 200);
 
     }
@@ -94,6 +96,7 @@ class CategoryController extends BaseController
     {
         $category = Category::where('title','Хиты продаж')->first();
         $products = $category->products()->get()->take(5);
+
         foreach ($products as $product) {
             $product->image       = env('APP_URL') . '/storage/' . $product->image;
             $product->is_favorite = (bool) $this->isFavorite($product->id);
@@ -116,7 +119,8 @@ class CategoryController extends BaseController
     private function isFavorite($id) : int
     {
         if (Auth::guard('sanctum')->check()){
-            $status = Favorite::where('product_id', $id)
+            $status = Favorite::query()
+                ->where('product_id', $id)
                 ->where('user_id',Auth::guard('sanctum')->id())
                 ->first();
             return !empty($status);

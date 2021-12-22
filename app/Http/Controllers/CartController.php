@@ -7,11 +7,12 @@ use App\Http\Requests\CheckCartRequest;
 use App\Http\Resources\CartCollection;
 use App\Http\Resources\CategoryProductsCollection;
 use App\Models\Product;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function show(CartRequest $request)
+    public function show(CartRequest $request): JsonResponse
     {
         $cart = $request->all();
         $data = [];
@@ -28,7 +29,7 @@ class CartController extends Controller
         return response()->json(new CartCollection($data));
     }
 
-    public function check(CheckCartRequest $request)
+    public function check(CheckCartRequest $request): JsonResponse
     {
         $request   = $request->validated();
         $products  = $request['data'];

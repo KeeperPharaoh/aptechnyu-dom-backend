@@ -29,9 +29,9 @@ class AddColumnsToCategoriesTable extends Migration
     {
         Schema::table('categories', function (Blueprint $table) {
             //
-            $table->drop('show');
-            $table->drop('content_title');
-            $table->drop('description');
+            $table->dropColumn('show');
+            $table->dropColumn('content_title');
+            $table->dropColumn('description');
         });
     }
 }

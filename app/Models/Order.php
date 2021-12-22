@@ -11,5 +11,10 @@ class Order extends Model
 
     protected $table = 'orders';
 
-    protected $fillable = ['cart_id','quantity','product_id'];
+    protected $fillable = ['cart_id','quantity','product'];
+
+    protected $hidden   = [
+        'created_at',
+        'updated_at'
+    ];
 }

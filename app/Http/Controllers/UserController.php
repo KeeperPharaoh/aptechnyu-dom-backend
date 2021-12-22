@@ -23,7 +23,7 @@ class UserController extends Controller
     public function profileUpdate(ProfileRequest $request): JsonResponse
     {
         try{
-            $user = User::where('id', Auth::id())->first();
+            $user = User::query()->where('id', Auth::id())->first();
             $update = $request->validated();
             $user->update($update);
         }catch (\Exception $exception){
@@ -38,7 +38,7 @@ class UserController extends Controller
         ],200);
     }
 
-    public function updatePassword(Request $request)
+    public function updatePassword(Request $request): JsonResponse
     {
         $request->validate([
             'new_password' => ['required'],

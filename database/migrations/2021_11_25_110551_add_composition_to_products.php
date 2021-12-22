@@ -28,7 +28,7 @@ class AddCompositionToProducts extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             //
-            $table->drop('composition');
+            $table->dropColumn('composition');
         });
     }
 }
