@@ -57,12 +57,22 @@ class OrderController extends Controller
         }
 
         foreach ($products as $product) {
-            Order::query()->create([
-                'cart_id'    => $cart->id,
-                'quantity'   => $product['quantity'],
-                'product_id' => $product['id']
-            ]);
+            try {
+                DB::beginTransaction();
+                Order::query()->create([
+                    'cart_id'    => $cart->id,
+                    'quantity'   => $product['quantity'],
+                    'product' => $product['id']
+                ]);
+                DB::commit();
+            } catch (\Exception $exception) {
+                DB::rollBack();
+
+                return response()->json([
+                                            'message'   => 'Произошла ошибка'
+                                        ],409);
             }
+        }
         return response()->json([
             'message' => 'Операция прошла успешно'
             ],200);
