@@ -44,7 +44,16 @@ class OrderController extends Controller
                     'porch'         => $userSetting['porch']     ?? '',
                     'floor'         => $userSetting['floor']     ?? '',
                     'comment'       => $userSetting['comment']   ?? ''
-                    ]);
+                                          ]);
+            foreach ($products as $product) {
+                Order::query()
+                     ->create([
+                                  'cart_id'  => $cart->id,
+                                  'quantity' => $product['quantity'],
+                                  'product'  => $product['id'],
+                              ])
+                ;
+            }
             DB::commit();
 
         } catch (\Exception $exception)
@@ -56,23 +65,6 @@ class OrderController extends Controller
                 ],409);
         }
 
-        foreach ($products as $product) {
-            try {
-                DB::beginTransaction();
-                Order::query()->create([
-                    'cart_id'    => $cart->id,
-                    'quantity'   => $product['quantity'],
-                    'product' => $product['id']
-                ]);
-                DB::commit();
-            } catch (\Exception $exception) {
-                DB::rollBack();
-
-                return response()->json([
-                                            'message'   => 'Произошла ошибка'
-                                        ],409);
-            }
-        }
         return response()->json([
             'message' => 'Операция прошла успешно'
             ],200);
@@ -96,12 +88,8 @@ class OrderController extends Controller
                                 ->select('id','title','subtitle','article','image','price')
                                 ->get();
 
-            $order->product = $product;
+            $order->product    = $product;
             $cart->order       = $order;
-//            $cart->order = Order::query()
-//                                ->where('cart_id',$cart->id)
-//                                ->get();
-
         }
         return response()->json($carts);
     }

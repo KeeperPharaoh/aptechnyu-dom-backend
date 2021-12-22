@@ -47,8 +47,10 @@ Route::get('/analogs/{id}', [ProductController::class, 'analogs']);
 
 //Статьи
 Route::get('/articles', [ArticleController::class, 'allArticles']);
+Route::get('/articles/categories', [ArticleController::class, 'categories']);
 Route::get('/articles/{id}', [ArticleController::class, 'articles']);
 Route::get('/article/{id}', [ArticleController::class, 'article']);
+
 //Категории
 Route::get('/categories', [CategoryController::class, 'categories']);
 Route::get('/category/{id}',[CategoryController::class, 'category']);

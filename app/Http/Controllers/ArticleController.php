@@ -6,11 +6,18 @@ use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use App\Models\ArticleCategory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    public function allArticles()
+    public function categories()
+    {
+        $articles = ArticleCategory::all();
+        return response()->json($articles);
+    }
+
+    public function allArticles(): JsonResponse
     {
         $categories = ArticleCategory::all();
         foreach ($categories as $category){
@@ -23,13 +30,13 @@ class ArticleController extends Controller
         return response()->json($data);
     }
 
-    public function articles($id)
+    public function articles($id): JsonResponse
     {
         $articles = Article::where('category_id', $id)->get();
         return response()->json(new ArticleCollection($articles));
     }
 
-    public function article($id)
+    public function article($id): JsonResponse
     {
         $article = Article::find($id);
         return response()->json(new ArticleResource($article));
