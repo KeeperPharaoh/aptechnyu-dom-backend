@@ -20,7 +20,7 @@ class Product extends Model
 
     public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Category::class, 'subcategory_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     /** @noinspection PhpUndefinedFieldInspection */

@@ -46,7 +46,7 @@ class CategoryController extends BaseController
                                ->push($parentId)
                                ->all();
         $products    = Product::query()
-                              ->whereIn('subcategory_id', $categoryIds)
+                              ->whereIn('category_id', $categoryIds)
                               ->orderBy('order')
                               ->paginate(15);
 
@@ -85,7 +85,7 @@ class CategoryController extends BaseController
             $request->max = 999999;
         }
         $products = Product::query()
-                           ->where('subcategory_id', $id)
+                           ->where('category_id', $id)
                            ->where('products.price', '>=', $request->min)
                            ->where('products.price', '<=', $request->max)
                            ->orderBy('order')

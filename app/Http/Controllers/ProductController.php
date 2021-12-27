@@ -31,7 +31,7 @@ class ProductController extends BaseController
     public function analogs($id)
     {
         $analogs = Product::query()
-                            ->where('subcategory_id',$id)
+                            ->where('category_id',$id)
                             ->orderByRaw('RAND()')
                             ->take(5)
                             ->get()

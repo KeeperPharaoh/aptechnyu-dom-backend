@@ -16,9 +16,9 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table
-                ->unsignedBigInteger('subcategory_id')
+                ->unsignedBigInteger('category_id')
                 ->nullable();
-            $table->foreign('subcategory_id')
+            $table->foreign('category_id')
                   ->references('id')
                   ->on('categories')
                   ->onUpdate('cascade')
@@ -34,7 +34,10 @@ class CreateProductsTable extends Migration
             $table->string('manufacturer')->nullable();
             $table->text('instruction')->nullable();
             $table->text('description')->nullable();
+            $table->text('composition')->nullable();
             $table->integer('order')->nullable();
+            $table->integer('remainder');
+
             $table->timestamps();
         });
     }
