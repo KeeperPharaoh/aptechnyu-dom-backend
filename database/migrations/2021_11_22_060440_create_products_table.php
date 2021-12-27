@@ -34,7 +34,7 @@ class CreateProductsTable extends Migration
             $table->string('manufacturer')->nullable();
             $table->text('instruction')->nullable();
             $table->text('description')->nullable();
-            $table->integer('order');
+            $table->integer('order')->nullable();
             $table->timestamps();
         });
     }

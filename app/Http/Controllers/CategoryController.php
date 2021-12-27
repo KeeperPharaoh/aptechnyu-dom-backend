@@ -11,7 +11,6 @@ use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use function GuzzleHttp\Promise\all;
 
 class CategoryController extends BaseController
 {
@@ -28,9 +27,9 @@ class CategoryController extends BaseController
     public function showSubCategoriesById($id): JsonResponse
     {
         $subcategories = Category::query()
-                                    ->where('parent_id', $id)
-                                    ->select('id','title')
-                                    ->get();
+                                 ->where('parent_id', $id)
+                                 ->select('id', 'title')
+                                 ->get();
 
         return response()->json($subcategories);
     }
@@ -38,22 +37,24 @@ class CategoryController extends BaseController
     public function showAllProductsByCategory($id): JsonResponse
     {
         $categoryIds = Category::query()
-                               ->where('parent_id', $parentId = Category::query()
-                                                                        ->where('id', $id)
-                                                                        ->value('id'))
+                               ->where(
+                                   'parent_id', $parentId = Category::query()
+                                                                    ->where('id', $id)
+                                                                    ->value('id')
+                               )
                                ->pluck('id')
                                ->push($parentId)
                                ->all();
-        $products   = Product::query()
-                             ->whereIn('subcategory_id',$categoryIds)
-                             ->orderBy('order')
-                             ->paginate(15)
-        ;
+        $products    = Product::query()
+                              ->whereIn('subcategory_id', $categoryIds)
+                              ->orderBy('order')
+                              ->paginate(15);
 
         foreach ($products as $product) {
             $product->image       = env('APP_URL') . '/storage/' . $product->image;
             $product->is_favorite = (bool)$this->isFavorite($product->id);
         }
+
         return response()->json($products);
     }
 
@@ -73,11 +74,10 @@ class CategoryController extends BaseController
 
     public function category(Request $request): JsonResponse
     {
-        $id = $request->id;
+        $id       = $request->id;
         $category = Category::query()
                             ->where('id', $id)
-                            ->get()
-        ;
+                            ->get();
         if (!isset($request->min)) {
             $request->min = 0;
         }
@@ -85,20 +85,20 @@ class CategoryController extends BaseController
             $request->max = 999999;
         }
         $products = Product::query()
-                             ->where('subcategory_id', $id)
-                             ->where('products.price', '>=', $request->min)
-                             ->where('products.price', '<=', $request->max)
-                             ->orderBy('order')
-                             ->paginate(15)
-                             ;
+                           ->where('subcategory_id', $id)
+                           ->where('products.price', '>=', $request->min)
+                           ->where('products.price', '<=', $request->max)
+                           ->orderBy('order')
+                           ->paginate(15);
 
         foreach ($products as $product) {
             $product->image       = env('APP_URL') . '/storage/' . $product->image;
             $product->is_favorite = (bool)$this->isFavorite($product->id);
             $products->makeHidden(['instruction', 'description', 'manufacturer', 'composition', 'stock', 'country']);
         }
+
         return response()->json([
-                                    'products'    => $products,
+                                    'products' => $products,
                                 ]);
     }
 
@@ -124,14 +124,15 @@ class CategoryController extends BaseController
     public function new(): JsonResponse
     {
         $products = Product::query()
-                            ->where('new', true)
-                            ->get()
-                            ;
+                           ->where('new', true)
+                           ->limit(5)
+                           ->get();
         foreach ($products as $product) {
             $product->image       = env('APP_URL') . '/storage/' . $product->image;
             $product->is_favorite = (bool)$this->isFavorite($product->id);
             $products->makeHidden(['instruction', 'description', 'manufacturer', 'composition', 'stock', 'country']);
         }
+
         return response()->json($products);
     }
 
@@ -139,13 +140,14 @@ class CategoryController extends BaseController
     {
         $products = Product::query()
                            ->where('hits', true)
-                           ->get()
-        ;
+                           ->limit(5)
+                           ->get();
         foreach ($products as $product) {
             $product->image       = env('APP_URL') . '/storage/' . $product->image;
             $product->is_favorite = (bool)$this->isFavorite($product->id);
             $products->makeHidden(['instruction', 'description', 'manufacturer', 'composition', 'stock', 'country']);
         }
+
         return response()->json($products);
     }
 
@@ -153,13 +155,14 @@ class CategoryController extends BaseController
     {
         $products = Product::query()
                            ->where('sale', true)
-                           ->get()
-        ;
+                           ->limit(5)
+                           ->get();
         foreach ($products as $product) {
             $product->image       = env('APP_URL') . '/storage/' . $product->image;
             $product->is_favorite = (bool)$this->isFavorite($product->id);
             $products->makeHidden(['instruction', 'description', 'manufacturer', 'composition', 'stock', 'country']);
         }
+
         return response()->json($products);
     }
 
@@ -169,7 +172,9 @@ class CategoryController extends BaseController
                 ->check()) {
             $status = Favorite::query()
                               ->where('product_id', $id)
-                              ->where('user_id', Auth::guard('sanctum')->id())
+                              ->where('user_id', Auth::guard('sanctum')
+                                                     ->id()
+                              )
                               ->first();
 
             return !empty($status);
