@@ -14,13 +14,16 @@ class Product extends Model
         'created_at',
         'updated_at',
         'order',
-        'pivot'
+        'pivot',
+        'remainder'
     ];
 
-    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsToMany(Category::class,'category_products','product_id','category_id');
+        return $this->belongsTo(Category::class, 'subcategory_id');
     }
+
+    /** @noinspection PhpUndefinedFieldInspection */
     public function favorite(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Favorite::class, 'product_id')->where('user_id', auth('sanctum')->user()->id);

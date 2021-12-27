@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
+
 class UserController extends Controller
 {
     public function index()
@@ -22,34 +23,37 @@ class UserController extends Controller
 
     public function profileUpdate(ProfileRequest $request): JsonResponse
     {
-        try{
-            $user = User::query()->where('id', Auth::id())->first();
+        try {
+            $user   = User::query()
+                          ->where('id', Auth::id())
+                          ->first();
             $update = $request->validated();
             $user->update($update);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return response()->json([
-                'message' => 'Email уже зарегистрирован'
-            ],418);
+                                        'message' => 'Email уже зарегистрирован',
+                                    ], 418);
         }
         $user->save();
 
         return response()->json([
-            'message' => 'Updated Profile'
-        ],200);
+                                    'message' => 'Updated Profile',
+                                ], 200);
     }
 
     public function updatePassword(Request $request): JsonResponse
     {
         $request->validate([
-            'new_password' => ['required'],
-            'conf_password' => ['required'],
-        ]);
-        $user = User::where('id', Auth::id())->first();
+                               'new_password'  => ['required'],
+                               'conf_password' => ['required'],
+                           ]);
+        $user = User::where('id', Auth::id())
+                    ->first();
 
         if ($request->new_password != $request->conf_password) {
             return response()->json([
-                'status' => 'Password Incorrect'
-            ],418);
+                                        'status' => 'Password Incorrect',
+                                    ], 418);
         }
 
         $user->password = Hash::make($request->new_password);
@@ -57,21 +61,25 @@ class UserController extends Controller
         $user->save();
 
         return response()->json([
-            'status' => 'Password changed'
-        ],200);
+                                    'status' => 'Password changed',
+                                ], 200);
     }
 
-    public function forgotPassword(ForgotPasswordRequest $request)
+    public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
     {
-        $user = User::where('email', $request->email)->first();
-        $new_password = Str::random(8);
+        $user           = User::where('email', $request->email)
+                              ->first();
+        $new_password   = Str::random(8);
         $user->password = Hash::make($new_password);
         $user->save();
-        Mail::to($request->email)->send(new ForgotPassword($new_password));
+
+        Mail::to($request->email)
+            ->send(new ForgotPassword($new_password))
+        ;
 
         return response()->json([
-            "message" => "Sent successfully"
-            ]);
+                                    "message" => "Sent successfully",
+                                ]);
     }
 
 

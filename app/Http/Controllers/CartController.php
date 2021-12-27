@@ -16,16 +16,17 @@ class CartController extends Controller
     {
         $cart = $request->all();
         $data = [];
-        foreach ($cart as $value){
+        foreach ($cart as $value) {
             $product = Product::find($value['id']);
-            if (isset($value['price']) && $product->price != $value['price']){
+            if (isset($value['price']) && $product->price != $value['price']) {
                 return response()->json([
-                    'message' => 'Ошибка данные не совпадают'
-                ],409);
+                                            'message' => 'Ошибка данные не совпадают',
+                                        ], 409);
             }
             $product->quantity = $value['quantity'];
             $data[]            = $product;
         }
+
         return response()->json(new CartCollection($data));
     }
 
@@ -34,19 +35,23 @@ class CartController extends Controller
         $request   = $request->validated();
         $products  = $request['data'];
         $total_sum = 0;
+
         foreach ($products as $product) {
-            $data = Product::query()->find($product['id']);
-            $price = $data->price;
+            $data      = Product::query()
+                                ->find($product['id']);
+            $price     = $data->price;
             $total_sum += $price * $product['quantity'];
         }
-        if ($request['total_sum'] != $total_sum){
+
+        if ($request['total_sum'] != $total_sum) {
             return response()->json([
-                'message' => 'Ошибка корзины'
-                ],400);
+                                        'message' => 'Ошибка корзины',
+                                    ], 400);
         }
+
         return response()->json([
-            'message' => 'Операция прошла успешно'
-            ],200);
+                                    'message' => 'Операция прошла успешно',
+                                ], 200);
     }
 }
 

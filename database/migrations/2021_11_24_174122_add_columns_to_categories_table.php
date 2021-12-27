@@ -14,7 +14,6 @@ class AddColumnsToCategoriesTable extends Migration
     public function up()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->boolean('show');
             $table->string('content_title')->nullable();
             $table->text('description')->nullable();
         });
@@ -29,7 +28,6 @@ class AddColumnsToCategoriesTable extends Migration
     {
         Schema::table('categories', function (Blueprint $table) {
             //
-            $table->dropColumn('show');
             $table->dropColumn('content_title');
             $table->dropColumn('description');
         });

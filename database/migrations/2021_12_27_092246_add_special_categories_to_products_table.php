@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddChangeBonusToUsersTable extends Migration
+class AddSpecialCategoriesToProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class AddChangeBonusToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('bonus')
-                  ->default(0)
-                  ->change();
+        Schema::table('products', function (Blueprint $table) {
+            $table->boolean('sale');
+            $table->boolean('new');
+            $table->boolean('hits');
+
         });
     }
 
@@ -27,7 +28,8 @@ class AddChangeBonusToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('products', function (Blueprint $table) {
+            //
         });
     }
 }

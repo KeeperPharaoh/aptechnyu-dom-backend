@@ -43,7 +43,6 @@ Route::post('/cart/check', [CartController::class,'check']);
 //Продукт
 Route::get('/product/{id}', [ProductController::class, 'show']);
 Route::get('/analogs/{id}', [ProductController::class, 'analogs']);
-Route::get('/analogs/{id}', [ProductController::class, 'analogs']);
 
 //Статьи
 Route::get('/articles', [ArticleController::class, 'allArticles']);
@@ -53,8 +52,11 @@ Route::get('/article/{id}', [ArticleController::class, 'article']);
 
 //Категории
 Route::get('/categories', [CategoryController::class, 'categories']);
+Route::get('/categories/{id}/subcategories', [CategoryController::class, 'showSubCategoriesById']);
+Route::get('/category/{id}/all', [CategoryController::class, 'showAllProductsByCategory']);
 Route::get('/category/{id}',[CategoryController::class, 'category']);
 Route::get('/category',[CategoryController::class, 'allProducts']);
+
 Route::get('/new-product', [CategoryController::class, 'new']);
 Route::get('/bestsellers', [CategoryController::class, 'best']);
 Route::get('/sale', [CategoryController::class, 'sale']);

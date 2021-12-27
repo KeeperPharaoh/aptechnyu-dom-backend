@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CategoryProductsCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Category;
-use App\Models\CategoryProducts;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,20 +14,28 @@ class ProductController extends BaseController
 {
     public function show($id)
     {
-        return response(new ProductResource(Product::where('id',$id)->first()));
+        $product = Product::query()
+                          ->where('id', $id)
+                          ->first()
+            ;
+        if (!isset($product)) {
+            return response()->json([
+                'message' => 'Товара не найден'
+                ],404);
+        }
+        return response(
+            new ProductResource($product)
+        );
     }
 
     public function analogs($id)
     {
-        $category = Category::find($id);
-        $analogs = $category->products;
-        if (count($analogs) > 5){
-            $analogs = $analogs->random(5);
-        }elseif (isEmpty($analogs)){
-            return response()->json([
-                'message' => "Товар не найден"
-            ],404);
-        }
+        $analogs = Product::query()
+                            ->where('subcategory_id',$id)
+                            ->orderByRaw('RAND()')
+                            ->take(5)
+                            ->get()
+        ;
 
 
         return response(new CategoryProductsCollection($analogs));

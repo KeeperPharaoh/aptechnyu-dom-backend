@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class OrderRequest extends FormRequest
 {
@@ -22,7 +24,7 @@ class OrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Auth::check();
     }
 
     /**
@@ -30,27 +32,31 @@ class OrderRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
+        $delivery = (bool)$this->input('delivery');
+
         return [
-            'user'                => 'required',
-            'user.*name'          => 'required|string',
-            'user.*phone_number'  => 'required',
-            'user.*email'         => 'nullable|string|email',
-            'user.*city'          => 'required|string',
-            'user.*street'        => 'required|string',
-            'user.*house'         => 'required|string',
-            'user.*apartment'     => 'required|string',
-            'user.*comment'       => 'nullable|string',
-            'user.*order_type'    => 'required|integer',
-            'user.*payment_type'  => 'required|integer',
-            'user.*bonus'         => 'required|integer',
-            'user.*total_sum'     => 'required|integer',
-            'user.*porch'         => 'nullable|string',
-            'user.*floor'         => 'nullable|string',
-            'data'                => 'required',
-            'data.*.id'           => 'required|integer|exists:products',
-            'data.*.quantity'     => 'required|integer'
+            'delivery'          => ['required', 'boolean'],
+            'user'              => ['required'],
+            'user.name'         => ['required', 'string'],
+            'user.phone_number' => ['required'],
+            'user.email'        => ['nullable', 'string', 'email'],
+            'user.office'       => ['nullable', Rule::requiredIf(!$delivery)],
+            'user.city'         => ['string', Rule::requiredIf($delivery)],
+            'user.street'       => ['string', Rule::requiredIf($delivery)],
+            'user.house'        => ['string', Rule::requiredIf($delivery)],
+            'user.apartment'    => ['string', Rule::requiredIf($delivery)],
+            'user.comment'      => ['nullable', 'string'],
+            'user.order_type'   => ['integer', Rule::requiredIf($delivery)],
+            'user.payment_type' => ['integer', Rule::requiredIf($delivery)],
+            'user.bonus'        => ['integer', Rule::requiredIf($delivery)],
+            'user.total_sum'    => ['integer', Rule::requiredIf($delivery)],
+            'user.porch'        => ['string', Rule::requiredIf($delivery)],
+            'user.floor'        => ['string', Rule::requiredIf($delivery)],
+            'data'              => ['required'],
+            'data.*.id'         => ['required', 'integer', 'exists:products'],
+            'data.*.quantity'   => ['required', 'integer'],
         ];
     }
 }

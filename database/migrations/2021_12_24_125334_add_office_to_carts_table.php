@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddChangeBonusToUsersTable extends Migration
+class AddOfficeToCartsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class AddChangeBonusToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('bonus')
-                  ->default(0)
-                  ->change();
+        Schema::table('carts', function (Blueprint $table) {
+            $table->string('office')->nullable();
         });
     }
 
@@ -27,7 +25,9 @@ class AddChangeBonusToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('carts', function (Blueprint $table) {
+
+            $table->dropColumn('office');
         });
     }
 }

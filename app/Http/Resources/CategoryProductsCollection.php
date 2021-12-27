@@ -14,7 +14,7 @@ class CategoryProductsCollection extends ResourceCollection
      * @param  \Illuminate\Http\Request  $request
      * @return bool
      */
-    public function isFavorite($id)
+    public function isFavorite($id): bool
     {
         if (Auth::guard('sanctum')->check()){
         $status = Favorite::where('product_id', $id)
