@@ -53,8 +53,8 @@ Route::get('/article/{id}', [ArticleController::class, 'article']);
 //Категории
 Route::get('/categories', [CategoryController::class, 'categories']);
 Route::get('/categories/{id}/subcategories', [CategoryController::class, 'showSubCategoriesById']);
-Route::get('/category/{id}/all', [CategoryController::class, 'showAllProductsByCategory']);
-Route::get('/category/{id}',[CategoryController::class, 'category']);
+Route::get('/category/{id}', [CategoryController::class, 'showAllProductsByCategory']);
+Route::get('/subcategory/{id}',[CategoryController::class, 'category']);
 Route::get('/category',[CategoryController::class, 'allProducts']);
 
 Route::get('/new-product', [CategoryController::class, 'new']);
