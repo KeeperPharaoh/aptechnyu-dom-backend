@@ -30,8 +30,15 @@ class CategoryController extends BaseController
                                  ->where('parent_id', $id)
                                  ->select('id', 'title')
                                  ->get();
-
-        return response()->json($subcategories);
+        $category      = Category::query()
+                                  ->where('id',$id)
+                                  ->select('title')
+                                  ->first()
+        ;
+        return response()->json([
+            'title' => $category->title,
+            'data' =>$subcategories
+                                ]);
     }
 
     public function showAllProductsByCategory($id): JsonResponse
