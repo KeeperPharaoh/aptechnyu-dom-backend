@@ -34,11 +34,6 @@ class FavoriteController extends Controller
                             ->where('product_id', $request->product)
                             ->first();
 
-        if ($favorite == null) {
-            return response([
-                                'message' => 'Товара не существует',
-                            ], 404);
-        }
         if ($favorite) {
             return response([
                                 'message' => 'Товар уже в корзине',
