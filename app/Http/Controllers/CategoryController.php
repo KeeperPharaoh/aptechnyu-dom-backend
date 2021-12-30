@@ -28,16 +28,19 @@ class CategoryController extends BaseController
     {
         $subcategories = Category::query()
                                  ->where('parent_id', $id)
-                                 ->select('id', 'title')
+                                 ->select('id', 'title','image')
                                  ->get();
         $category      = Category::query()
                                   ->where('id',$id)
                                   ->select('title')
                                   ->first()
         ;
+        foreach ($subcategories as $subcategory) {
+            $subcategory->image       = env('APP_URL') . '/storage/' . $subcategory->image;
+        }
         return response()->json([
             'title' => $category->title,
-            'data' =>$subcategories
+            'data'  => $subcategories
                                 ]);
     }
 

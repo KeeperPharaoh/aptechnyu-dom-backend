@@ -31,7 +31,7 @@ class AuthController extends BaseController
             $user = User::query()
                         ->create($input);
         } catch (\Exception $exception) {
-            return $this->sendError('Email уже зарегистрирован');
+            return $this->sendError('Email уже зарегистрирован','',401);
         }
 
         $success['token'] = $user->createToken('MyApp')->plainTextToken;
