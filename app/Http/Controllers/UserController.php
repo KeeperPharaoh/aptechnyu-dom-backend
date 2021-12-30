@@ -42,9 +42,9 @@ class UserController extends Controller
 
                 $image = str_replace('data:image/' . $type . ';base64,', '', $image);
                 $image = str_replace(' ', '+', $image);
-                $imageName = "product-".time()."." . $type;
+                $imageName = "avatar-".time()."." . $type;
 
-                Storage::disk('public')->put($imageName, base64_decode($image));
+                Storage::disk('public')->put('avatar/'.$imageName, base64_decode($image));
                 $update['avatar'] = $imageName;
             }
             $user->update($update);
