@@ -36,7 +36,10 @@ class CategoryController extends BaseController
                                   ->first()
         ;
         foreach ($subcategories as $subcategory) {
-            $subcategory->image       = env('APP_URL') . '/storage/' . $subcategory->image;
+            $image = $subcategory->image;
+            $image = json_decode($image);
+            $image = $image[0];
+            $subcategory->image       = env('APP_URL') . '/storage/' . $image->download_link;
         }
         return response()->json([
             'title' => $category->title,
