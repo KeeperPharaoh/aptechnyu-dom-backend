@@ -33,10 +33,16 @@ class UserController extends Controller
             $update = $request->validated();
 
             if (isset($update['avatar'])) {
+
                 $image = $update['avatar'];
-                $image = str_replace('data:image/png;base64,', '', $image);
+
+                $img = preg_replace('/^data:image\/\w+;base64,/', '', $image);
+                $type = explode(';', $image)[0];
+                $type = explode('/', $type)[1]; // png or jpg etc
+
+                $image = str_replace('data:image/' . $type . ';base64,', '', $image);
                 $image = str_replace(' ', '+', $image);
-                $imageName = "product-".time().".png";
+                $imageName = "product-".time()."." . $type;
 
                 Storage::disk('public')->put($imageName, base64_decode($image));
                 $update['avatar'] = $imageName;
