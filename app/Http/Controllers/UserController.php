@@ -9,10 +9,13 @@ use App\Mail\ForgotPassword;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -28,8 +31,19 @@ class UserController extends Controller
                           ->where('id', Auth::id())
                           ->first();
             $update = $request->validated();
+
+            if (isset($update['avatar'])) {
+                $image = $update['avatar'];
+                $image = str_replace('data:image/png;base64,', '', $image);
+                $image = str_replace(' ', '+', $image);
+                $imageName = "product-".time().".png";
+
+                Storage::disk('public')->put($imageName, base64_decode($image));
+                $update['avatar'] = $imageName;
+            }
             $user->update($update);
         } catch (\Exception $exception) {
+            dd($exception->getMessage());
             return response()->json([
                                         'message' => 'Email уже зарегистрирован',
                                     ], 418);
